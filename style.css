@@ -1,0 +1,194 @@
+/* বেসিক রিসেট ও ব্যাকগ্রাউন্ড */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body {
+    background-color: #050b14;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Arial Rounded MT Bold', sans-serif;
+    user-select: none; /* টেক্সট যেন সিলেক্ট না হয়ে যায় */
+    -webkit-tap-highlight-color: transparent; /* মোবাইলে টাচ করলে যেন নীল বক্স না আসে */
+}
+
+/* তারা এবং পতাকা */
+.stars { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    top: 0; 
+    left: 0; 
+    pointer-events: none; 
+}
+
+.star { 
+    position: absolute; 
+    background-color: #fff; 
+    border-radius: 50%; 
+    animation: twinkle 2s infinite ease-in-out; 
+}
+
+@keyframes twinkle { 
+    0%, 100% { opacity: 0.3; } 
+    50% { opacity: 1; } 
+}
+
+.bunting { 
+    position: absolute; 
+    top: 0; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    gap: 10px; 
+    padding-top: 10px; 
+}
+
+.flag { 
+    width: 0; 
+    height: 0; 
+    border-left: 15px solid transparent; 
+    border-right: 15px solid transparent; 
+    border-top: 35px solid red; 
+    animation: swing 1.5s infinite ease-in-out alternate; 
+    transform-origin: top center; 
+}
+
+.flag-pink { border-top-color: #ff3377; animation-delay: 0.1s; }
+.flag-green { border-top-color: #33cc33; animation-delay: 0.2s; }
+.flag-blue { border-top-color: #3399ff; animation-delay: 0.3s; }
+.flag-yellow { border-top-color: #ffcc00; animation-delay: 0.4s; }
+.flag-red { border-top-color: #ff3333; animation-delay: 0.5s; }
+.flag-purple { border-top-color: #9933ff; animation-delay: 0.6s; }
+
+@keyframes swing { 
+    0% { transform: rotate(-5deg); } 
+    100% { transform: rotate(5deg); } 
+}
+
+/* টেক্সট লেআউট */
+.container { 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    z-index: 10; 
+    width: 100%; 
+    max-width: 400px; 
+}
+
+.eid-text { 
+    color: #f3b923; 
+    font-size: 2.8rem; 
+    line-height: 1.2; 
+    margin-bottom: 50px; 
+    text-shadow: 0 0 10px rgba(243, 185, 35, 0.3); 
+}
+
+/* --- অ্যানিমাল স্লাইডার লজিক --- */
+.animal-container {
+    position: relative;
+    width: 200px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* সব পশু শুরুতে ব্যাকগ্রাউন্ডে ইনভিসিবল থাকবে */
+.animal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+/* 'active' ক্লাস পেলে স্মুথলি ভেসে উঠবে */
+.animal.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    animation: floatAnimal 3s infinite ease-in-out alternate;
+}
+
+@keyframes floatAnimal {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+/* পায়ের অ্যানিমেশন */
+.legs { 
+    display: flex; 
+    gap: 8px; 
+    margin-top: 15px; 
+}
+
+.leg { 
+    width: 10px; 
+    height: 40px; 
+    background: #333; 
+    border-radius: 0 0 4px 4px; 
+    animation: walk 0.6s infinite ease-in-out alternate; 
+    transform-origin: top center; 
+}
+
+.leg:nth-child(odd) { 
+    animation-delay: 0.3s; 
+}
+
+@keyframes walk { 
+    0% { transform: rotate(-8deg); } 
+    100% { transform: rotate(8deg); } 
+}
+
+/* ================= পশুপাখিদের নিজস্ব ডিজাইন ================= */
+
+/* ১. ভেড়া (Sheep) */
+.sheep-body {
+    width: 130px; height: 90px; background: #fff; border-radius: 50px;
+    box-shadow: 0 0 0 10px #fff, -15px -10px 0 5px #fff, 15px -10px 0 5px #fff, -20px 15px 0 5px #fff, 20px 15px 0 5px #fff;
+}
+.sheep-head { width: 50px; height: 45px; background: #ffcc99; border-radius: 50%; position: absolute; right: -20px; top: 15px; }
+.eye-l, .eye-r { position: absolute; width: 6px; height: 6px; background: #000; border-radius: 50%; top: 14px; }
+.eye-l { left: 12px; } .eye-r { right: 12px; }
+.nose { position: absolute; width: 8px; height: 5px; background: #b37746; border-radius: 50%; top: 24px; left: 50%; transform: translateX(-50%); }
+.ear-l, .ear-r { position: absolute; width: 10px; height: 15px; background: #ffcc99; border-radius: 50%; top: -2px; }
+.ear-l { left: -4px; transform: rotate(-30deg); } .ear-r { right: -4px; transform: rotate(30deg); }
+.blush-l, .blush-r { position: absolute; width: 6px; height: 4px; background: #ff9999; border-radius: 50%; top: 22px; }
+.blush-l { left: 8px; } .blush-r { right: 8px; }
+
+/* ২. গোরু (Cow) */
+.cow-body { width: 140px; height: 90px; background: #f0f0f0; border-radius: 30px; position: relative; overflow: hidden; border: 2px solid #ddd; }
+.spot { position: absolute; background: #333; border-radius: 50%; }
+.spot1 { width: 40px; height: 30px; top: 10px; left: 15px; }
+.spot2 { width: 30px; height: 45px; bottom: -10px; right: 20px; }
+.cow-head { width: 45px; height: 55px; background: #f0f0f0; border-radius: 20px 20px 10px 10px; position: absolute; right: -15px; top: -10px; border: 2px solid #ddd; }
+.cow-snout { position: absolute; width: 100%; height: 20px; background: #ffb3b3; bottom: 0; border-radius: 10px; }
+.horn-l, .horn-r { position: absolute; width: 8px; height: 15px; background: #cccccc; top: -10px; border-radius: 50% 50% 0 0; }
+.horn-l { left: 6px; transform: rotate(-15deg); } .horn-r { right: 6px; transform: rotate(15deg); }
+.cow-ear-l, .cow-ear-r { position: absolute; width: 15px; height: 10px; background: #333; top: 5px; border-radius: 50%; }
+.cow-ear-l { left: -12px; } .cow-ear-r { right: -12px; }
+.cow-leg { background: #f0f0f0; border: 1px solid #ccc; }
+
+/* ৩. উট (Camel) */
+.camel-body { width: 130px; height: 80px; background: #d2a679; border-radius: 20px; position: relative; }
+.hump { position: absolute; width: 50px; height: 40px; background: #d2a679; top: -25px; left: 40px; border-radius: 50% 50% 0 0; }
+.camel-neck { width: 25px; height: 70px; background: #d2a679; position: absolute; right: 10px; top: -45px; border-radius: 20px 20px 0 0; transform: rotate(-10deg); z-index: 2; }
+.camel-head { width: 45px; height: 30px; background: #d2a679; border-radius: 15px; position: absolute; top: -5px; right: -15px; }
+.camel-snout { position: absolute; width: 20px; height: 15px; background: #bc8f60; bottom: 0; right: -2px; border-radius: 10px; }
+.camel-leg { background: #d2a679; height: 50px; }
+
+/* মোবাইল রেসপনসিভনেস */
+@media (max-width: 480px) {
+    .eid-text { font-size: 2.2rem; }
+    .animal-container { transform: scale(0.85); }
+}
